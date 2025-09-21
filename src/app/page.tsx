@@ -69,7 +69,7 @@ export default function Home() {
 
       <main className="flex-grow flex flex-col items-center justify-center p-4">
         <div className="text-center mb-10">
-          <h1 className="text-5xl font-headline text-shadow" style={{textShadow: '0 0 10px hsl(var(--foreground))'}}>
+          <h1 className="text-5xl font-headline text-shadow whitespace-nowrap" style={{textShadow: '0 0 10px hsl(var(--foreground))'}}>
             Curated and Co
           </h1>
           <p className="mt-4 text-lg text-foreground/80">
