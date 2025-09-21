@@ -74,7 +74,7 @@ export const products: Product[] = [
   },
 ];
 
-export const rentalCategories = ['Mining Equipment'];
+export const rentalCategories = ['Mining Equipment', 'Farming Equipment'];
 
 export const rentalItems: RentalItem[] = [
   {
@@ -100,5 +100,13 @@ export const rentalItems: RentalItem[] = [
     pricePerDay: 300,
     category: 'Mining Equipment',
     imageId: 'copper-drill',
+  },
+  {
+    id: 'rent8',
+    name: 'Tractor',
+    description: 'A powerful tractor for all your farming and land management needs.',
+    pricePerDay: 500,
+    category: 'Farming Equipment',
+    imageId: 'tractor',
   },
 ];

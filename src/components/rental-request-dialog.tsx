@@ -26,9 +26,9 @@ import { useToast } from '@/hooks/use-toast';
 import { useState, type ReactNode } from 'react';
 
 const rentalSchema = z.object({
-  name: z.string().min(2, { message: "Name is required." }),
-  email: z.string().email({ message: "A valid email is required." }),
-  rentalDate: z.date({ required_error: "Please select a date." }),
+    minecraftUsername: z.string().min(1, "Minecraft username is required."),
+    discordId: z.string().min(1, "Discord ID is required."),
+    rentalDate: z.date({ required_error: "Please select a date." }),
 });
 
 interface RentalRequestDialogProps {
@@ -41,7 +41,7 @@ export function RentalRequestDialog({ item, children }: RentalRequestDialogProps
   const { toast } = useToast();
   const form = useForm<z.infer<typeof rentalSchema>>({
     resolver: zodResolver(rentalSchema),
-    defaultValues: { name: "", email: "" },
+    defaultValues: { minecraftUsername: "", discordId: "" },
   });
 
   const onSubmit = async (values: z.infer<typeof rentalSchema>) => {
@@ -49,7 +49,7 @@ export function RentalRequestDialog({ item, children }: RentalRequestDialogProps
     if (result.success) {
       toast({
         title: "Request Submitted",
-        description: "Your rental request has been sent. We will contact you shortly.",
+        description: "Your rental request has been sent. We will contact you shortly with details.",
       });
       setOpen(false);
       form.reset();
@@ -69,22 +69,22 @@ export function RentalRequestDialog({ item, children }: RentalRequestDialogProps
         <DialogHeader>
           <DialogTitle>Request to Rent: {item.name}</DialogTitle>
           <DialogDescription>
-            Fill out the form below to request this item. We'll confirm availability and contact you for payment.
+            Please provide your details below to request this item.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField control={form.control} name="name" render={({ field }) => (
+            <FormField control={form.control} name="minecraftUsername" render={({ field }) => (
               <FormItem>
-                <FormLabel>Full Name</FormLabel>
-                <FormControl><Input placeholder="John Doe" {...field} /></FormControl>
+                <FormLabel>Minecraft Username</FormLabel>
+                <FormControl><Input placeholder="YourUsername" {...field} /></FormControl>
                 <FormMessage />
               </FormItem>
             )} />
-            <FormField control={form.control} name="email" render={({ field }) => (
+            <FormField control={form.control} name="discordId" render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl><Input type="email" placeholder="you@example.com" {...field} /></FormControl>
+                <FormLabel>Discord ID</FormLabel>
+                <FormControl><Input placeholder="username#1234" {...field} /></FormControl>
                 <FormMessage />
               </FormItem>
             )} />
@@ -116,9 +116,10 @@ export function RentalRequestDialog({ item, children }: RentalRequestDialogProps
                 <FormMessage />
               </FormItem>
             )} />
-            <DialogFooter>
-              <Button type="submit" disabled={form.formState.isSubmitting}>
-                {form.formState.isSubmitting ? 'Submitting...' : 'Submit Request'}
+            <DialogFooter className="flex-col gap-2 !justify-normal">
+              <p className="text-xs text-muted-foreground text-center">You will be contacted via Discord with further details. All rentals require signing a contract.</p>
+              <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
+                {form.formState.isSubmitting ? 'Submitting...' : 'Order the Rent'}
               </Button>
             </DialogFooter>
           </form>

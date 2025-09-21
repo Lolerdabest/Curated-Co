@@ -53,8 +53,8 @@ export async function submitOrder(cart: CartItem[], totalPrice: number, data: un
 }
 
 const rentalSchema = z.object({
-  name: z.string().min(2, 'Name is required.'),
-  email: z.string().email('A valid email is required.'),
+  minecraftUsername: z.string().min(1, 'Minecraft username is required.'),
+  discordId: z.string().min(1, 'Discord ID is required.'),
   rentalDate: z.date({ required_error: 'Please select a date.' }),
 });
 

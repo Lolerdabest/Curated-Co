@@ -90,6 +90,12 @@
       "description": "A copper-colored mining drill.",
       "imageUrl": "https://picsum.photos/seed/copper-drill/600/600",
       "imageHint": "drill mining"
+    },
+    {
+      "id": "tractor",
+      "description": "A powerful red tractor in a field.",
+      "imageUrl": "https://picsum.photos/seed/tractor/600/600",
+      "imageHint": "tractor farming"
     }
   ]
 }
