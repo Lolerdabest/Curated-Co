@@ -74,41 +74,9 @@ export const products: Product[] = [
   },
 ];
 
-export const rentalCategories = ['Event Gear', 'Tools', 'Outdoor Equipment', 'Mining Equipment'];
+export const rentalCategories = ['Mining Equipment'];
 
 export const rentalItems: RentalItem[] = [
-  {
-    id: 'rent1',
-    name: 'Professional Event Projector',
-    description: 'High-lumen projector suitable for large venues, presentations, and movie nights. Includes all necessary cables.',
-    pricePerDay: 75,
-    category: 'Event Gear',
-    imageId: 'projector',
-  },
-  {
-    id: 'rent2',
-    name: 'Heavy-Duty Pressure Washer',
-    description: 'Gas-powered pressure washer for tackling tough cleaning jobs on decks, driveways, and siding.',
-    pricePerDay: 50,
-    category: 'Tools',
-    imageId: 'pressure-washer',
-  },
-  {
-    id: 'rent3',
-    name: 'Premium 4-Person Camping Tent',
-    description: 'Spacious and weatherproof tent for your next outdoor adventure. Easy setup and durable materials.',
-    pricePerDay: 35,
-    category: 'Outdoor Equipment',
-    imageId: 'tent',
-  },
-  {
-    id: 'rent4',
-    name: 'Portable PA System',
-    description: 'All-in-one PA system with two speakers, a mixer, and microphones. Perfect for parties, weddings, and public speaking.',
-    pricePerDay: 100,
-    category: 'Event Gear',
-    imageId: 'pa-system',
-  },
   {
     id: 'rent5',
     name: 'Golden Mining Drill',
