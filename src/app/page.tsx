@@ -155,7 +155,7 @@ export default function Home() {
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="w-full font-headline text-lg py-6 rounded-md text-white">
+              <Button type="submit" className="w-full font-headline text-lg py-6 rounded-md">
                 Place Order
               </Button>
             </form>
