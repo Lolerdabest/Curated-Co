@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import Link from 'next/link';
+import { submitCustomOrder } from "./actions";
 
 const formSchema = z.object({
   orderDescription: z.string().min(1, "Order description is required."),
@@ -41,13 +42,21 @@ export default function Home() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    // In a real app, you'd send this to a backend or webhook.
-    console.log(values);
-    toast({
-      title: "Order Placed!",
-      description: "Your custom order has been submitted.",
-    });
-    form.reset();
+    const result = await submitCustomOrder(values);
+
+    if (result.success) {
+      toast({
+        title: "Order Placed!",
+        description: "Your custom order has been submitted.",
+      });
+      form.reset();
+    } else {
+       toast({
+        variant: "destructive",
+        title: "Order Failed",
+        description: result.message || "An unknown error occurred.",
+      });
+    }
   }
 
   return (
@@ -148,6 +157,7 @@ export default function Home() {
                             placeholder="0"
                             className="bg-input border-border/70 pl-7"
                             {...field}
+                            onChange={event => field.onChange(+event.target.value)}
                           />
                         </div>
                     </FormControl>
@@ -155,8 +165,8 @@ export default function Home() {
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="w-full font-headline text-lg py-6 rounded-md">
-                Place Order
+              <Button type="submit" className="w-full font-headline text-lg py-6 rounded-md" disabled={form.formState.isSubmitting}>
+                {form.formState.isSubmitting ? 'Placing Order...' : 'Place Order'}
               </Button>
             </form>
           </Form>

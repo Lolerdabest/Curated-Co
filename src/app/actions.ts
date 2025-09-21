@@ -2,40 +2,49 @@
 
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
-import type { CartItem, RentalItem } from './lib/types';
+import type { RentalItem } from './lib/types';
 
-const checkoutSchema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters'),
-  email: z.string().email('Invalid email address'),
-  address: z.string().min(5, 'Address must be at least 5 characters'),
-  discountCode: z.string().optional(),
+const orderSchema = z.object({
+  orderDescription: z.string().min(1, "Order description is required."),
+  minecraftUsername: z.string().min(1, "Minecraft username is required."),
+  discordId: z.string().min(1, "Discord ID is required."),
+  offer: z.preprocess(
+    (a) => parseFloat(z.string().parse(a)),
+    z.number().positive("Offer must be a positive number.")
+  ),
 });
 
-export async function submitOrder(cart: CartItem[], totalPrice: number, data: unknown) {
-  const parsed = checkoutSchema.safeParse(data);
+export async function submitCustomOrder(data: unknown) {
+  const parsed = orderSchema.safeParse(data);
   if (!parsed.success) {
     return { success: false, message: 'Invalid form data.', errors: parsed.error.flatten().fieldErrors };
   }
 
   const webhookUrl = process.env.WEBHOOK_URL;
-  if (!webhookUrl) {
+  if (!webhookUrl || webhookUrl.includes("YOUR_DISCORD_WEBHOOK_URL_HERE")) {
     console.error('WEBHOOK_URL is not defined in environment variables.');
-    return { success: false, message: 'Server configuration error. Could not process order.' };
+    return { success: false, message: 'Server configuration error: Webhook URL is not set.' };
   }
 
   const payload = {
-    ...parsed.data,
-    items: cart,
-    totalPrice: totalPrice,
-    orderDate: new Date().toISOString(),
+    content: "New Custom Order Received!",
+    embeds: [{
+      title: "Custom Order Details",
+      color: 15844367, // Gold color
+      fields: [
+        { name: "Minecraft Username", value: parsed.data.minecraftUsername, inline: true },
+        { name: "Discord ID", value: parsed.data.discordId, inline: true },
+        { name: "Offer", value: `$${parsed.data.offer.toFixed(2)}`, inline: true },
+        { name: "Order Description", value: parsed.data.orderDescription },
+      ],
+      timestamp: new Date().toISOString()
+    }]
   };
 
   try {
     const response = await fetch(webhookUrl, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
     });
 
@@ -43,8 +52,6 @@ export async function submitOrder(cart: CartItem[], totalPrice: number, data: un
       throw new Error(`Webhook failed with status ${response.status}`);
     }
 
-    revalidatePath('/');
-    revalidatePath('/checkout');
     return { success: true, message: 'Order placed successfully!' };
   } catch (error) {
     console.error('Failed to submit order to webhook:', error);
@@ -65,15 +72,25 @@ export async function submitRentalRequest(item: RentalItem, data: unknown) {
   }
 
   const webhookUrl = process.env.WEBHOOK_URL;
-  if (!webhookUrl) {
+   if (!webhookUrl || webhookUrl.includes("YOUR_DISCORD_WEBHOOK_URL_HERE")) {
     console.error('WEBHOOK_URL is not defined in environment variables.');
-    return { success: false, message: 'Server configuration error. Could not process request.' };
+    return { success: false, message: 'Server configuration error: Webhook URL is not set.' };
   }
 
   const payload = {
-    ...parsed.data,
-    item,
-    requestDate: new Date().toISOString(),
+    content: "New Rental Request!",
+    embeds: [{
+      title: "Rental Request Details",
+      color: 15844367, // Gold color
+      fields: [
+        { name: "Item", value: item.name, inline: false },
+        { name: "Price", value: `$${item.pricePerDay.toFixed(2)}/day`, inline: false },
+        { name: "Minecraft Username", value: parsed.data.minecraftUsername, inline: true },
+        { name: "Discord ID", value: parsed.data.discordId, inline: true },
+        { name: "Requested Rental Date", value: format(parsed.data.rentalDate, "PPP"), inline: false },
+      ],
+      timestamp: new Date().toISOString()
+    }]
   };
   
   try {
