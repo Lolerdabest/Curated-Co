@@ -30,11 +30,11 @@ export default function RentalsPage({ searchParams }: RentalsPageProps) {
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <Link href="/">
             <h1 className="text-xl font-headline text-primary" style={{textShadow: '0 0 5px hsl(var(--primary))'}}>
-              Curated and Co
+              C & Co
             </h1>
           </Link>
           <nav>
-            <Button variant="ghost" asChild>
+            <Button variant="default" asChild>
                 <Link href="/rentals">Rentals</Link>
             </Button>
           </nav>
