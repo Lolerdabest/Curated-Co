@@ -71,6 +71,30 @@
       "description": "A complete portable PA system with speakers and a mixing board.",
       "imageUrl": "https://picsum.photos/seed/pa-system/600/600",
       "imageHint": "audio speakers"
+    },
+    {
+      "id": "golden-drill",
+      "description": "A shiny golden mining drill.",
+      "imageUrl": "https://picsum.photos/seed/golden-drill/600/600",
+      "imageHint": "drill mining"
+    },
+    {
+      "id": "iron-drill",
+      "description": "A sturdy iron mining drill.",
+      "imageUrl": "https://picsum.photos/seed/iron-drill/600/600",
+      "imageHint": "drill mining"
+    },
+    {
+      "id": "copper-drill",
+      "description": "A copper-colored mining drill.",
+      "imageUrl": "https://picsum.photos/seed/copper-drill/600/600",
+      "imageHint": "drill mining"
+    },
+    {
+      "id": "diamond-drill",
+      "description": "A futuristic diamond-tipped mining drill.",
+      "imageUrl": "https://picsum.photos/seed/diamond-drill/600/600",
+      "imageHint": "drill mining"
     }
   ]
 }

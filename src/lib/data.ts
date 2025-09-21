@@ -74,7 +74,7 @@ export const products: Product[] = [
   },
 ];
 
-export const rentalCategories = ['Event Gear', 'Tools', 'Outdoor Equipment'];
+export const rentalCategories = ['Event Gear', 'Tools', 'Outdoor Equipment', 'Mining Equipment'];
 
 export const rentalItems: RentalItem[] = [
   {
@@ -108,5 +108,37 @@ export const rentalItems: RentalItem[] = [
     pricePerDay: 100,
     category: 'Event Gear',
     imageId: 'pa-system',
+  },
+  {
+    id: 'rent5',
+    name: 'Golden Mining Drill',
+    description: 'Top-tier mining drill for extracting rare resources with unparalleled speed and efficiency.',
+    pricePerDay: 600,
+    category: 'Mining Equipment',
+    imageId: 'golden-drill',
+  },
+  {
+    id: 'rent6',
+    name: 'Iron Mining Drill',
+    description: 'A reliable and sturdy drill for all your standard mining operations. Great for iron and coal.',
+    pricePerDay: 500,
+    category: 'Mining Equipment',
+    imageId: 'iron-drill',
+  },
+  {
+    id: 'rent7',
+    name: 'Copper Mining Drill',
+    description: 'Efficient and lightweight, this drill is perfect for extracting copper and other soft metals.',
+    pricePerDay: 300,
+    category: 'Mining Equipment',
+    imageId: 'copper-drill',
+  },
+  {
+    id: 'rent8',
+    name: 'Diamond Mining Drill',
+    description: 'The ultimate mining tool. Capable of boring through obsidian and finding the rarest gems.',
+    pricePerDay: 1000,
+    category: 'Mining Equipment',
+    imageId: 'diamond-drill',
   },
 ];
