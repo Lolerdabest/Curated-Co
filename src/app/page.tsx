@@ -52,7 +52,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen">
-       <header className="sticky top-0 z-10 bg-card/80 backdrop-blur-sm border-b border-border/50">
+       <header className="sticky top-0 z-50 bg-card/80 backdrop-blur-sm border-b border-border/50">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <Link href="/">
             <h1 className="text-xl font-headline text-primary" style={{textShadow: '0 0 5px hsl(var(--primary))'}}>
@@ -163,7 +163,7 @@ export default function Home() {
         </div>
       </main>
       
-      <footer className="py-6 text-center text-xs text-muted-foreground border-t border-border/50">
+      <footer className="py-6 text-center text-xs text-muted-foreground border-t border-border/50 z-10">
         <p>&copy; {new Date().getFullYear()} Curated and Co - All rights reserved</p>
       </footer>
     </div>
