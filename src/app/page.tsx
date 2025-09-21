@@ -15,6 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import Link from 'next/link';
 
 const formSchema = z.object({
   orderDescription: z.string().min(1, "Order description is required."),
@@ -52,16 +53,16 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4">
       <header className="text-center mb-10">
-        <h1 className="text-2xl font-medium tracking-widest uppercase text-foreground/80">
+        <h1 className="text-5xl font-bold tracking-tight font-headline">
           Curated and Co
         </h1>
-        <p className="mt-2 text-sm text-muted-foreground">
+        <p className="mt-2 text-lg text-muted-foreground">
           Bespoke orders, curated for you.
         </p>
       </header>
       
       <main className="w-full max-w-md bg-card border border-border/50 rounded-lg p-6 md:p-8 shadow-lg">
-        <h2 className="text-xl font-semibold text-center mb-6">
+        <h2 className="text-3xl font-bold text-center mb-6 text-primary font-headline">
           Place a Custom Order
         </h2>
         <Form {...form}>
@@ -75,7 +76,7 @@ export default function Home() {
                   <FormControl>
                     <Textarea
                       placeholder="e.g., A vintage leather-bound journal, a set of hand-poured scented candles..."
-                      className="bg-input border-border/70 text-base"
+                      className="bg-input border-border/70"
                       {...field}
                     />
                   </FormControl>
@@ -92,7 +93,7 @@ export default function Home() {
                   <FormControl>
                     <Input
                       placeholder="John Doe"
-                      className="bg-input border-border/70 text-base"
+                      className="bg-input border-border/70"
                       {...field}
                     />
                   </FormControl>
@@ -109,7 +110,7 @@ export default function Home() {
                   <FormControl>
                     <Input
                       placeholder="you@example.com"
-                      className="bg-input border-border/70 text-base"
+                      className="bg-input border-border/70"
                       {...field}
                     />
                   </FormControl>
@@ -124,12 +125,15 @@ export default function Home() {
                 <FormItem>
                   <FormLabel>Your Offer (in $)</FormLabel>
                   <FormControl>
-                     <Input
-                        type="number"
-                        placeholder="100"
-                        className="bg-input border-border/70 text-base"
-                        {...field}
-                      />
+                     <div className="relative">
+                        <span className="absolute inset-y-0 left-3 flex items-center text-muted-foreground">$</span>
+                        <Input
+                          type="number"
+                          placeholder="100"
+                          className="bg-input border-border/70 pl-7"
+                          {...field}
+                        />
+                      </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -141,6 +145,12 @@ export default function Home() {
           </form>
         </Form>
       </main>
+      
+      <nav className="mt-8">
+        <Link href="/rentals" className="text-primary hover:underline">
+          View Rentals
+        </Link>
+      </nav>
 
       <footer className="mt-8 text-center text-xs text-muted-foreground">
         <p>&copy; {new Date().getFullYear()} Curated and Co - All rights reserved</p>
