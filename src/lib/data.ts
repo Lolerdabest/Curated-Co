@@ -133,12 +133,4 @@ export const rentalItems: RentalItem[] = [
     category: 'Mining Equipment',
     imageId: 'copper-drill',
   },
-  {
-    id: 'rent8',
-    name: 'Diamond Mining Drill',
-    description: 'The ultimate mining tool. Capable of boring through obsidian and finding the rarest gems.',
-    pricePerDay: 1000,
-    category: 'Mining Equipment',
-    imageId: 'diamond-drill',
-  },
 ];

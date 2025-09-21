@@ -1,3 +1,4 @@
+
 {
   "placeholderImages": [
     {
@@ -88,12 +89,6 @@
       "id": "copper-drill",
       "description": "A copper-colored mining drill.",
       "imageUrl": "https://picsum.photos/seed/copper-drill/600/600",
-      "imageHint": "drill mining"
-    },
-    {
-      "id": "diamond-drill",
-      "description": "A futuristic diamond-tipped mining drill.",
-      "imageUrl": "https://picsum.photos/seed/diamond-drill/600/600",
       "imageHint": "drill mining"
     }
   ]
