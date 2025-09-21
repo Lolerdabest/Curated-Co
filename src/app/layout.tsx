@@ -1,15 +1,16 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
-import { PT_Mono, Inter } from "next/font/google";
+import { Press_Start_2P, VT323 } from "next/font/google";
 import { cn } from '@/lib/utils';
  
-const fontSans = Inter({
+const fontSans = VT323({
   subsets: ["latin"],
   variable: "--font-sans",
-})
+  weight: "400",
+});
 
-const fontHeadline = PT_Mono({
+const fontHeadline = Press_Start_2P({
   subsets: ["latin"],
   variable: "--font-headline",
   weight: "400"

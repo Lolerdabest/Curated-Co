@@ -19,8 +19,8 @@ import Link from 'next/link';
 
 const formSchema = z.object({
   orderDescription: z.string().min(1, "Order description is required."),
-  contactEmail: z.string().email("A valid email is required."),
-  name: z.string().min(1, "Your name is required."),
+  minecraftUsername: z.string().min(1, "Minecraft username is required."),
+  discordId: z.string().min(1, "Discord ID is required."),
   offer: z.preprocess(
     (a) => parseFloat(z.string().parse(a)),
     z.number().positive("Offer must be a positive number.")
@@ -34,8 +34,8 @@ export default function Home() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       orderDescription: "",
-      contactEmail: "",
-      name: "",
+      minecraftUsername: "",
+      discordId: "",
       offer: 0,
     },
   });
@@ -53,16 +53,16 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4">
       <header className="text-center mb-10">
-        <h1 className="text-5xl font-bold tracking-tight font-headline">
+        <h1 className="text-5xl font-headline text-shadow" style={{textShadow: '0 0 10px hsl(var(--foreground))'}}>
           Curated and Co
         </h1>
-        <p className="mt-2 text-lg text-muted-foreground">
-          Bespoke orders, curated for you.
+        <p className="mt-4 text-lg text-foreground/80">
+          order anything from a to z very cheap and fast
         </p>
       </header>
       
       <main className="w-full max-w-md bg-card border border-border/50 rounded-lg p-6 md:p-8 shadow-lg">
-        <h2 className="text-3xl font-bold text-center mb-6 text-primary font-headline">
+        <h2 className="text-3xl font-headline text-center mb-6 text-primary" style={{textShadow: '0 0 10px hsl(var(--primary))'}}>
           Place a Custom Order
         </h2>
         <Form {...form}>
@@ -75,7 +75,7 @@ export default function Home() {
                   <FormLabel>Order Description *</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="e.g., A vintage leather-bound journal, a set of hand-poured scented candles..."
+                      placeholder="e.g., Bulk order: 2 shulkers of iron blocks, 15 Mending books, etc."
                       className="bg-input border-border/70"
                       {...field}
                     />
@@ -86,13 +86,13 @@ export default function Home() {
             />
             <FormField
               control={form.control}
-              name="name"
+              name="minecraftUsername"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Your Name *</FormLabel>
+                  <FormLabel>Minecraft Username *</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="John Doe"
+                      placeholder="YourUsername"
                       className="bg-input border-border/70"
                       {...field}
                     />
@@ -103,13 +103,13 @@ export default function Home() {
             />
             <FormField
               control={form.control}
-              name="contactEmail"
+              name="discordId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Contact Email *</FormLabel>
+                  <FormLabel>Discord ID *</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="you@example.com"
+                      placeholder="username#1234"
                       className="bg-input border-border/70"
                       {...field}
                     />
@@ -129,7 +129,7 @@ export default function Home() {
                         <span className="absolute inset-y-0 left-3 flex items-center text-muted-foreground">$</span>
                         <Input
                           type="number"
-                          placeholder="100"
+                          placeholder="0"
                           className="bg-input border-border/70 pl-7"
                           {...field}
                         />
@@ -139,7 +139,7 @@ export default function Home() {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full font-bold text-lg py-3 rounded-md">
+            <Button type="submit" className="w-full font-headline text-lg py-6 rounded-md text-white">
               Place Order
             </Button>
           </form>
