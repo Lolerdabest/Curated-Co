@@ -12,22 +12,8 @@ interface RentalCardProps {
 }
 
 export function RentalCard({ item }: RentalCardProps) {
-  const image = PlaceHolderImages.find((img) => img.id === item.imageId);
-
   return (
     <Card className="flex flex-col h-full overflow-hidden transition-shadow hover:shadow-lg bg-card/80 border-border/50">
-      {image && (
-        <CardHeader className="p-0">
-          <Image
-              src={image.imageUrl}
-              alt={item.name}
-              width={600}
-              height={400}
-              className="w-full h-48 object-cover"
-              data-ai-hint={image.imageHint}
-          />
-        </CardHeader>
-      )}
       <CardContent className="p-4 flex-grow flex flex-col items-center justify-center">
         <CardTitle 
             className="text-2xl font-headline text-center text-primary"
