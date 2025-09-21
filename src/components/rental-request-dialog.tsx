@@ -1,0 +1,129 @@
+"use client";
+
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Calendar } from '@/components/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { CalendarIcon } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { format } from 'date-fns';
+import type { RentalItem } from '@/lib/types';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { submitRentalRequest } from '@/app/actions';
+import { useToast } from '@/hooks/use-toast';
+import { useState, type ReactNode } from 'react';
+
+const rentalSchema = z.object({
+  name: z.string().min(2, { message: "Name is required." }),
+  email: z.string().email({ message: "A valid email is required." }),
+  rentalDate: z.date({ required_error: "Please select a date." }),
+});
+
+interface RentalRequestDialogProps {
+  item: RentalItem;
+  children: ReactNode;
+}
+
+export function RentalRequestDialog({ item, children }: RentalRequestDialogProps) {
+  const [open, setOpen] = useState(false);
+  const { toast } = useToast();
+  const form = useForm<z.infer<typeof rentalSchema>>({
+    resolver: zodResolver(rentalSchema),
+    defaultValues: { name: "", email: "" },
+  });
+
+  const onSubmit = async (values: z.infer<typeof rentalSchema>) => {
+    const result = await submitRentalRequest(item, values);
+    if (result.success) {
+      toast({
+        title: "Request Submitted",
+        description: "Your rental request has been sent. We will contact you shortly.",
+      });
+      setOpen(false);
+      form.reset();
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Request Failed",
+        description: result.message,
+      });
+    }
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>{children}</DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Request to Rent: {item.name}</DialogTitle>
+          <DialogDescription>
+            Fill out the form below to request this item. We'll confirm availability and contact you for payment.
+          </DialogDescription>
+        </DialogHeader>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <FormField control={form.control} name="name" render={({ field }) => (
+              <FormItem>
+                <FormLabel>Full Name</FormLabel>
+                <FormControl><Input placeholder="John Doe" {...field} /></FormControl>
+                <FormMessage />
+              </FormItem>
+            )} />
+            <FormField control={form.control} name="email" render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl><Input type="email" placeholder="you@example.com" {...field} /></FormControl>
+                <FormMessage />
+              </FormItem>
+            )} />
+            <FormField control={form.control} name="rentalDate" render={({ field }) => (
+              <FormItem className="flex flex-col">
+                <FormLabel>Rental Date</FormLabel>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Button
+                        variant={"outline"}
+                        className={cn("w-full pl-3 text-left font-normal", !field.value && "text-muted-foreground")}
+                      >
+                        {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
+                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                      </Button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={field.value}
+                      onSelect={field.onChange}
+                      disabled={(date) => date < new Date() || date < new Date("1900-01-01")}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+                <FormMessage />
+              </FormItem>
+            )} />
+            <DialogFooter>
+              <Button type="submit" disabled={form.formState.isSubmitting}>
+                {form.formState.isSubmitting ? 'Submitting...' : 'Submit Request'}
+              </Button>
+            </DialogFooter>
+          </form>
+        </Form>
+      </DialogContent>
+    </Dialog>
+  );
+}

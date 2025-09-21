@@ -1,3 +1,76 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "headphones",
+      "description": "A pair of sleek, modern over-ear headphones on a clean background.",
+      "imageUrl": "https://picsum.photos/seed/headphones/600/600",
+      "imageHint": "headphones audio"
+    },
+    {
+      "id": "coffee-maker",
+      "description": "An elegant glass and wood pour-over coffee maker.",
+      "imageUrl": "https://picsum.photos/seed/coffee-maker/600/600",
+      "imageHint": "coffee kitchen"
+    },
+    {
+      "id": "olive-oil",
+      "description": "A large, rustic tin of olive oil with Mediterranean-style branding.",
+      "imageUrl": "https://picsum.photos/seed/olive-oil/600/600",
+      "imageHint": "olive oil"
+    },
+    {
+      "id": "jacket",
+      "description": "A person wearing a dark, technical all-weather jacket in the rain.",
+      "imageUrl": "https://picsum.photos/seed/jacket/600/600",
+      "imageHint": "jacket outdoors"
+    },
+    {
+      "id": "television",
+      "description": "A large, thin-bezel 4K television mounted on a living room wall.",
+      "imageUrl": "https://picsum.photos/seed/television/600/600",
+      "imageHint": "television livingroom"
+    },
+    {
+      "id": "dutch-oven",
+      "description": "A beautiful, minimalist enameled cast iron dutch oven on a stovetop.",
+      "imageUrl": "https://picsum.photos/seed/dutch-oven/600/600",
+      "imageHint": "cooking kitchen"
+    },
+    {
+      "id": "almond-flour",
+      "description": "A large, clear bag of finely ground almond flour.",
+      "imageUrl": "https://picsum.photos/seed/almond-flour/600/600",
+      "imageHint": "baking ingredients"
+    },
+    {
+      "id": "sweater",
+      "description": "A neatly folded, soft merino wool sweater.",
+      "imageUrl": "https://picsum.photos/seed/sweater/600/600",
+      "imageHint": "sweater clothing"
+    },
+    {
+      "id": "projector",
+      "description": "A professional-grade event projector on a stand.",
+      "imageUrl": "https://picsum.photos/seed/projector/600/600",
+      "imageHint": "projector event"
+    },
+    {
+      "id": "pressure-washer",
+      "description": "A powerful gas-powered pressure washer ready for use.",
+      "imageUrl": "https://picsum.photos/seed/pressure-washer/600/600",
+      "imageHint": "tool power"
+    },
+    {
+      "id": "tent",
+      "description": "A large dome tent set up in a beautiful mountain landscape.",
+      "imageUrl": "https://picsum.photos/seed/tent/600/600",
+      "imageHint": "tent camping"
+    },
+    {
+      "id": "pa-system",
+      "description": "A complete portable PA system with speakers and a mixing board.",
+      "imageUrl": "https://picsum.photos/seed/pa-system/600/600",
+      "imageHint": "audio speakers"
+    }
+  ]
 }
