@@ -18,8 +18,8 @@ import { useToast } from "@/hooks/use-toast";
 
 const formSchema = z.object({
   orderDescription: z.string().min(1, "Order description is required."),
-  minecraftUsername: z.string().min(1, "Minecraft username is required."),
-  discordId: z.string().min(1, "Discord ID is required."),
+  contactEmail: z.string().email("A valid email is required."),
+  name: z.string().min(1, "Your name is required."),
   offer: z.preprocess(
     (a) => parseFloat(z.string().parse(a)),
     z.number().positive("Offer must be a positive number.")
@@ -33,8 +33,8 @@ export default function Home() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       orderDescription: "",
-      minecraftUsername: "",
-      discordId: "",
+      contactEmail: "",
+      name: "",
       offer: 0,
     },
   });
@@ -50,21 +50,18 @@ export default function Home() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4 text-white font-pixel">
-      <header className="text-center mb-8">
-        <h1 
-          className="text-5xl md:text-7xl font-bold uppercase"
-          style={{ textShadow: '0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff' }}
-        >
-          lolers<br/>hustle
+    <div className="flex flex-col items-center justify-center min-h-screen p-4">
+      <header className="text-center mb-10">
+        <h1 className="text-2xl font-medium tracking-widest uppercase text-foreground/80">
+          Curated and Co
         </h1>
-        <p className="mt-4 text-sm text-gray-300 tracking-wider">
-          order anything from a to z very cheap and fast
+        <p className="mt-2 text-sm text-muted-foreground">
+          Bespoke orders, curated for you.
         </p>
       </header>
       
-      <main className="w-full max-w-md bg-black bg-opacity-50 border border-red-800 rounded-lg p-6 md:p-8">
-        <h2 className="text-2xl text-red-500 font-bold text-center mb-6">
+      <main className="w-full max-w-md bg-card border border-border/50 rounded-lg p-6 md:p-8 shadow-lg">
+        <h2 className="text-xl font-semibold text-center mb-6">
           Place a Custom Order
         </h2>
         <Form {...form}>
@@ -74,11 +71,11 @@ export default function Home() {
               name="orderDescription"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-xs text-gray-400">Order Description *</FormLabel>
+                  <FormLabel>Order Description *</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="e.g., Bulk order: 2 shulkers of iron blocks, 15 Mending books, etc."
-                      className="bg-[#1a1a1a] border-gray-700 text-white placeholder:text-gray-500 text-sm"
+                      placeholder="e.g., A vintage leather-bound journal, a set of hand-poured scented candles..."
+                      className="bg-input border-border/70 text-base"
                       {...field}
                     />
                   </FormControl>
@@ -88,14 +85,14 @@ export default function Home() {
             />
             <FormField
               control={form.control}
-              name="minecraftUsername"
+              name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-xs text-gray-400">Minecraft Username *</FormLabel>
+                  <FormLabel>Your Name *</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="YourUsername"
-                      className="bg-[#1a1a1a] border-gray-700 text-white placeholder:text-gray-500 text-sm"
+                      placeholder="John Doe"
+                      className="bg-input border-border/70 text-base"
                       {...field}
                     />
                   </FormControl>
@@ -105,14 +102,14 @@ export default function Home() {
             />
             <FormField
               control={form.control}
-              name="discordId"
+              name="contactEmail"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-xs text-gray-400">Discord ID *</FormLabel>
+                  <FormLabel>Contact Email *</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="username#1234"
-                      className="bg-[#1a1a1a] border-gray-700 text-white placeholder:text-gray-500 text-sm"
+                      placeholder="you@example.com"
+                      className="bg-input border-border/70 text-base"
                       {...field}
                     />
                   </FormControl>
@@ -125,31 +122,28 @@ export default function Home() {
               name="offer"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-xs text-gray-400">Your Offer (in R$) *</FormLabel>
+                  <FormLabel>Your Offer (in $)</FormLabel>
                   <FormControl>
-                    <div className="relative">
-                      <Input
+                     <Input
                         type="number"
-                        placeholder="0"
-                        className="bg-[#1a1a1a] border-gray-700 text-white placeholder:text-gray-500 text-sm pl-3 pr-8"
+                        placeholder="100"
+                        className="bg-input border-border/70 text-base"
                         {...field}
                       />
-                      <span className="absolute inset-y-0 right-3 flex items-center text-gray-400 text-sm">R$</span>
-                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full bg-red-600 hover:bg-red-700 text-white font-bold text-lg py-3 rounded-md">
+            <Button type="submit" className="w-full font-bold text-lg py-3 rounded-md">
               Place Order
             </Button>
           </form>
         </Form>
       </main>
 
-      <footer className="mt-8 text-center text-xs text-gray-500">
-        <p>&copy; {new Date().getFullYear()} lolers hustle - All rights reserved</p>
+      <footer className="mt-8 text-center text-xs text-muted-foreground">
+        <p>&copy; {new Date().getFullYear()} Curated and Co - All rights reserved</p>
       </footer>
     </div>
   );
