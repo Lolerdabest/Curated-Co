@@ -19,7 +19,7 @@ const fontHeadline = Press_Start_2P({
 });
 
 export const metadata: Metadata = {
-  title: 'Curated and Co',
+  title: 'Curated Co',
   description: 'Bespoke orders, curated for you.',
 };
 

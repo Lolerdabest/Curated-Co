@@ -18,6 +18,7 @@ import { useToast } from "@/hooks/use-toast";
 import Link from 'next/link';
 import { submitCustomOrder } from "./actions";
 import { CheckCircle, MoveRight } from "lucide-react";
+import { useState } from "react";
 
 const DiscordIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg
@@ -44,6 +45,7 @@ type FormValues = z.infer<typeof formSchema>;
 
 export default function Home() {
   const { toast } = useToast();
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -55,22 +57,18 @@ export default function Home() {
     },
   });
 
-  const { formState: { isSubmitting }, reset } = form;
+  const { reset, formState: { isSubmitting } } = form;
 
   const onSubmit: SubmitHandler<FormValues> = async (values) => {
     const result = await submitCustomOrder(values);
 
     if (result.success) {
       toast({
-        title: (
-          <div className="flex items-center gap-2">
-            <CheckCircle className="h-5 w-5 text-green-500" />
-            <span className="font-bold">Order Placed!</span>
-          </div>
-        ),
+        title: "Order Placed!",
         description: "Your order has been received. We'll contact you on Discord shortly.",
       });
       reset();
+      setIsSubmitted(true);
     } else {
        toast({
         variant: "destructive",
@@ -104,7 +102,7 @@ export default function Home() {
       <main className="flex-grow flex flex-col items-center justify-center p-4">
         <div className="text-center mb-10">
           <h1 className="text-4xl md:text-5xl font-headline text-shadow whitespace-nowrap" style={{textShadow: '0 0 10px hsl(var(--foreground))'}}>
-            Curated and Co
+            Curated Co
           </h1>
           <p className="mt-4 text-lg text-foreground/80">
             order anything from a to z very cheap and fast
@@ -112,89 +110,106 @@ export default function Home() {
         </div>
         
         <div className="w-full max-w-md bg-card border border-border/50 rounded-lg p-6 md:p-8 shadow-lg">
-          <h2 className="text-3xl font-headline text-center mb-6 text-primary" style={{textShadow: '0 0 10px hsl(var(--primary))'}}>
-            Place a Custom Order
-          </h2>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <FormField
-                control={form.control}
-                name="orderDescription"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Order Description *</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        placeholder="e.g., Bulk order: 2 shulkers of iron blocks, 15 Mending books, etc."
-                        className="bg-input border-border/70"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="minecraftUsername"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Minecraft Username *</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="YourUsername"
-                        className="bg-input border-border/70"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="discordId"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Discord ID *</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="your_discord_username"
-                        className="bg-input border-border/70"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="offer"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Your Offer (in $)</FormLabel>
-                    <FormControl>
-                      <div className="relative">
-                          <span className="absolute inset-y-0 left-3 flex items-center text-muted-foreground">$</span>
-                          <Input
-                            type="number"
-                            placeholder="0"
-                            className="bg-input border-border/70 pl-7"
-                            step="any"
-                            {...field}
-                          />
-                        </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button type="submit" variant="default" className="w-full font-headline text-lg py-6 rounded-md hover:bg-primary/90 hover:text-primary-foreground transition-colors duration-300" disabled={isSubmitting}>
-                {isSubmitting ? 'Submitting...' : 'Submit Order'}
+           {isSubmitted ? (
+            <div className="text-center flex flex-col items-center justify-center py-8">
+              <CheckCircle className="w-16 h-16 text-green-500 mb-4" />
+              <h2 className="text-2xl font-headline text-primary" style={{textShadow: '0 0 8px hsl(var(--primary))'}}>
+                Order Placed!
+              </h2>
+              <p className="text-muted-foreground mt-2">
+                Your order has been received. We will contact you shortly via Discord.
+              </p>
+              <Button onClick={() => setIsSubmitted(false)} className="mt-6">
+                Place Another Order
               </Button>
-            </form>
-          </Form>
+            </div>
+          ) : (
+            <>
+            <h2 className="text-3xl font-headline text-center mb-6 text-primary" style={{textShadow: '0 0 10px hsl(var(--primary))'}}>
+              Place a Custom Order
+            </h2>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <FormField
+                  control={form.control}
+                  name="orderDescription"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Order Description *</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="e.g., Bulk order: 2 shulkers of iron blocks, 15 Mending books, etc."
+                          className="bg-input border-border/70"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="minecraftUsername"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Minecraft Username *</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="YourUsername"
+                          className="bg-input border-border/70"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="discordId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Discord ID *</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="your_discord_username"
+                          className="bg-input border-border/70"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="offer"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Your Offer (in $)</FormLabel>
+                      <FormControl>
+                        <div className="relative">
+                            <span className="absolute inset-y-0 left-3 flex items-center text-muted-foreground">$</span>
+                            <Input
+                              type="number"
+                              placeholder="0"
+                              className="bg-input border-border/70 pl-7"
+                              step="any"
+                              {...field}
+                            />
+                          </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button type="submit" variant="default" className="w-full font-headline text-lg py-6 rounded-md hover:bg-primary/90 hover:text-primary-foreground transition-colors duration-300" disabled={isSubmitting}>
+                  {isSubmitting ? 'Submitting...' : 'Submit Order'}
+                </Button>
+              </form>
+            </Form>
+            </>
+          )}
         </div>
       </main>
       
@@ -206,7 +221,7 @@ export default function Home() {
             </Link>
         </Button>
         <p>
-            &copy; {new Date().getFullYear()} Curated and Co - All rights reserved
+            &copy; {new Date().getFullYear()} Curated Co - All rights reserved
         </p>
         <p className="font-headline text-primary" style={{textShadow: '0 0 8px hsl(var(--primary)), 0 0 2px black'}}>
             By Eddiegonza420
@@ -215,5 +230,3 @@ export default function Home() {
     </div>
   );
 }
-
-    

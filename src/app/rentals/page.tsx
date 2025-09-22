@@ -96,7 +96,7 @@ export default function RentalsPage({ searchParams }: RentalsPageProps) {
               </Link>
           </Button>
           <p>
-              &copy; {new Date().getFullYear()} Curated and Co - All rights reserved
+              &copy; {new Date().getFullYear()} Curated Co - All rights reserved
           </p>
           <p className="font-headline text-primary" style={{textShadow: '0 0 8px hsl(var(--primary)), 0 0 2px black'}}>
               By Eddiegonza420
