@@ -17,6 +17,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import Link from 'next/link';
 import { submitCustomOrder } from "./actions";
+import { MoveRight } from "lucide-react";
 
 const formSchema = z.object({
   orderDescription: z.string().min(1, "Order description is required."),
@@ -68,8 +69,12 @@ export default function Home() {
               C & Co
             </h1>
           </Link>
-          <nav>
-            <Button variant="default" asChild>
+           <nav className="flex items-center gap-4">
+            <div className="hidden sm:flex items-center gap-2 animate-pulse">
+                <p className="text-sm text-primary" style={{textShadow: '0 0 5px hsl(var(--primary))'}}>Click for rentals</p>
+                <MoveRight className="text-primary w-6 h-6" />
+            </div>
+            <Button variant="default" asChild className="w-full sm:w-auto">
                 <Link href="/rentals">Rentals</Link>
             </Button>
           </nav>
