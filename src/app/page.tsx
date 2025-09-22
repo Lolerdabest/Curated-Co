@@ -1,6 +1,6 @@
 "use client";
 
-import { useForm } from "react-hook-form";
+import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
@@ -37,16 +37,15 @@ const formSchema = z.object({
   orderDescription: z.string().min(1, "Order description is required."),
   minecraftUsername: z.string().min(1, "Minecraft username is required."),
   discordId: z.string().min(1, "Discord ID is required."),
-  offer: z.preprocess(
-    (a) => parseFloat(z.string().parse(a)),
-    z.number().positive("Offer must be a positive number.")
-  ),
+  offer: z.coerce.number().min(0, "Offer must be a positive number."),
 });
+
+type FormValues = z.infer<typeof formSchema>;
 
 export default function Home() {
   const { toast } = useToast();
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       orderDescription: "",
@@ -58,7 +57,7 @@ export default function Home() {
 
   const { formState: { isSubmitting }, reset } = form;
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  const onSubmit: SubmitHandler<FormValues> = async (values) => {
     const result = await submitCustomOrder(values);
 
     if (result.success) {
@@ -182,8 +181,8 @@ export default function Home() {
                             type="number"
                             placeholder="0"
                             className="bg-input border-border/70 pl-7"
+                            step="any"
                             {...field}
-                            onChange={event => field.onChange(+event.target.value)}
                           />
                         </div>
                     </FormControl>
@@ -191,7 +190,7 @@ export default function Home() {
                   </FormItem>
                 )}
               />
-              <Button type="submit" variant="outline" className="w-full font-headline text-lg py-6 rounded-md hover:bg-primary/90 hover:text-primary-foreground transition-colors duration-300" disabled={isSubmitting}>
+              <Button type="submit" variant="default" className="w-full font-headline text-lg py-6 rounded-md hover:bg-primary/90 hover:text-primary-foreground transition-colors duration-300" disabled={isSubmitting}>
                 {isSubmitting ? 'Submitting...' : 'Submit Order'}
               </Button>
             </form>
@@ -216,3 +215,5 @@ export default function Home() {
     </div>
   );
 }
+
+    

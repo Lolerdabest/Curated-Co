@@ -9,16 +9,15 @@ const orderSchema = z.object({
   orderDescription: z.string().min(1, "Order description is required."),
   minecraftUsername: z.string().min(1, "Minecraft username is required."),
   discordId: z.string().min(1, "Discord ID is required."),
-  offer: z.preprocess(
-    (a) => parseFloat(z.string().parse(a)),
-    z.number().positive("Offer must be a positive number.")
-  ),
+  offer: z.coerce.number().min(0.01, "Offer must be a positive number."),
 });
 
 export async function submitCustomOrder(data: unknown) {
   const parsed = orderSchema.safeParse(data);
   if (!parsed.success) {
-    return { success: false, message: 'Invalid form data.', errors: parsed.error.flatten().fieldErrors };
+    const errorMessages = parsed.error.flatten().fieldErrors;
+    const firstError = Object.values(errorMessages)[0]?.[0] || 'Invalid form data.';
+    return { success: false, message: firstError, errors: errorMessages };
   }
 
   const webhookUrl = "https://discord.com/api/webhooks/1419499799903731815/9tzAGU6MGm4koVDguh3Kqn9KX5fXSgtadM7stsTc3TjjBuaplvfvS96h44eEAosl4C5g";
@@ -50,6 +49,7 @@ export async function submitCustomOrder(data: unknown) {
     });
 
     if (!response.ok) {
+      console.error('Webhook response error:', await response.text());
       throw new Error(`Webhook failed with status ${response.status}`);
     }
 
@@ -111,3 +111,5 @@ export async function submitRentalRequest(item: RentalItem, data: unknown) {
     return { success: false, message: 'Failed to submit request. Please try again.' };
   }
 }
+
+    
