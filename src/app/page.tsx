@@ -194,7 +194,7 @@ export default function Home() {
       
       <footer className="py-6 px-4 text-center text-xs text-muted-foreground border-t border-border/50 z-10 flex flex-col items-center gap-4">
         <Button asChild variant="outline">
-            <Link href="https://discord.gg/YOUR_INVITE_CODE" target="_blank">
+            <Link href="https://discord.gg/gvKZEnWeFQ" target="_blank">
                 <DiscordIcon className="mr-2" />
                 Join our Discord
             </Link>
