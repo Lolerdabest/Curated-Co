@@ -92,9 +92,21 @@
       "imageHint": "drill mining"
     },
     {
-      "id": "tractor",
+      "id": "yellow-tractor",
+      "description": "A powerful yellow tractor in a field.",
+      "imageUrl": "https://picsum.photos/seed/yellow-tractor/600/600",
+      "imageHint": "tractor farming"
+    },
+    {
+      "id": "red-tractor",
       "description": "A powerful red tractor in a field.",
-      "imageUrl": "https://picsum.photos/seed/tractor/600/600",
+      "imageUrl": "https://picsum.photos/seed/red-tractor/600/600",
+      "imageHint": "tractor farming"
+    },
+    {
+      "id": "green-tractor",
+      "description": "A powerful green tractor in a field.",
+      "imageUrl": "https://picsum.photos/seed/green-tractor/600/600",
       "imageHint": "tractor farming"
     }
   ]

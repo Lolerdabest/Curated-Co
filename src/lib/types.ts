@@ -18,4 +18,5 @@ export type RentalItem = {
   pricePerDay: number;
   category: string;
   imageId: string;
+  color?: string;
 };
