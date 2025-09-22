@@ -4,6 +4,7 @@ import { RentalCard } from "@/components/rental-card";
 import { FilterControls } from "@/components/filter-controls";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { MoveLeft } from "lucide-react";
 
 interface RentalsPageProps {
   searchParams?: {
@@ -33,10 +34,14 @@ export default function RentalsPage({ searchParams }: RentalsPageProps) {
               C & Co
             </h1>
           </Link>
-          <nav>
-            <Button variant="default" asChild>
-                <Link href="/rentals">Rentals</Link>
+          <nav className="flex items-center gap-4">
+             <Button variant="default" asChild className="w-full sm:w-auto">
+                <Link href="/">Bulk Order</Link>
             </Button>
+            <div className="hidden sm:flex items-center gap-2 animate-pulse">
+                <MoveLeft className="text-primary w-6 h-6" />
+                <p className="text-sm text-primary" style={{textShadow: '0 0 5px hsl(var(--primary))'}}>Click for bulk orders</p>
+            </div>
           </nav>
         </div>
       </header>
