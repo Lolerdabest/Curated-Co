@@ -18,6 +18,7 @@ import { useToast } from "@/hooks/use-toast";
 import Link from 'next/link';
 import { submitCustomOrder } from "./actions";
 import { MoveRight } from "lucide-react";
+import { useState } from "react";
 
 const DiscordIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg
@@ -45,6 +46,7 @@ const formSchema = z.object({
 
 export default function Home() {
   const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -57,11 +59,13 @@ export default function Home() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsSubmitting(true);
     const result = await submitCustomOrder(values);
+    setIsSubmitting(false);
 
     if (result.success) {
       toast({
-        title: "Order Successful!",
+        title: "Order Submitted!",
         description: "Your order has been submitted. You will be contacted soon.",
       });
       form.reset();
@@ -184,8 +188,8 @@ export default function Home() {
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="w-full font-headline text-lg py-6 rounded-md" disabled={form.formState.isSubmitting}>
-                {form.formState.isSubmitting ? 'Placing Order...' : 'Place Order'}
+              <Button type="submit" className="w-full font-headline text-lg py-6 rounded-md" disabled={isSubmitting}>
+                {isSubmitting ? 'Placing Order...' : 'Place Order'}
               </Button>
             </form>
           </Form>
