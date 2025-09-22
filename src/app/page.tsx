@@ -58,7 +58,7 @@ export default function Home() {
     },
   });
 
-  const { isSubmitting } = form.formState;
+  const { formState: { isSubmitting } } = form;
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const result = await submitCustomOrder(values);
