@@ -21,9 +21,9 @@ export async function submitCustomOrder(data: unknown) {
     return { success: false, message: 'Invalid form data.', errors: parsed.error.flatten().fieldErrors };
   }
 
-  const webhookUrl = process.env.WEBHOOK_URL;
-  if (!webhookUrl || webhookUrl.includes("YOUR_DISCORD_WEBHOOK_URL_HERE")) {
-    console.error('WEBHOOK_URL is not defined in environment variables.');
+  const webhookUrl = "https://discord.com/api/webhooks/1419499799903731815/9tzAGU6MGm4koVDguh3Kqn9KX5fXSgtadM7stsTc3TjjBuaplvfvS96h44eEAosl4C5g";
+  if (!webhookUrl) {
+    console.error('WEBHOOK_URL is not defined.');
     return { success: false, message: 'Server configuration error: Webhook URL is not set.' };
   }
 
@@ -72,9 +72,9 @@ export async function submitRentalRequest(item: RentalItem, data: unknown) {
     return { success: false, message: 'Invalid form data.', errors: parsed.error.flatten().fieldErrors };
   }
 
-  const webhookUrl = process.env.WEBHOOK_URL;
-   if (!webhookUrl || webhookUrl.includes("YOUR_DISCORD_WEBHOOK_URL_HERE")) {
-    console.error('WEBHOOK_URL is not defined in environment variables.');
+  const webhookUrl = "https://discord.com/api/webhooks/1419499799903731815/9tzAGU6MGm4koVDguh3Kqn9KX5fXSgtadM7stsTc3TjjBuaplvfvS96h44eEAosl4C5g";
+   if (!webhookUrl) {
+    console.error('WEBHOOK_URL is not defined.');
     return { success: false, message: 'Server configuration error: Webhook URL is not set.' };
   }
 
