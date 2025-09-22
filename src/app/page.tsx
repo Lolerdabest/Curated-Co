@@ -17,7 +17,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import Link from 'next/link';
 import { submitCustomOrder } from "./actions";
-import { MoveRight } from "lucide-react";
+import { CheckCircle, MoveRight } from "lucide-react";
+import { useState } from "react";
 
 const DiscordIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg
@@ -45,6 +46,7 @@ const formSchema = z.object({
 
 export default function Home() {
   const { toast } = useToast();
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -62,10 +64,7 @@ export default function Home() {
     const result = await submitCustomOrder(values);
 
     if (result.success) {
-      toast({
-        title: "Order Submitted!",
-        description: "Your order has been submitted. You will be contacted soon.",
-      });
+      setIsSubmitted(true);
       form.reset();
     } else {
        toast({
@@ -108,89 +107,103 @@ export default function Home() {
         </div>
         
         <div className="w-full max-w-md bg-card border border-border/50 rounded-lg p-6 md:p-8 shadow-lg">
-          <h2 className="text-3xl font-headline text-center mb-6 text-primary" style={{textShadow: '0 0 10px hsl(var(--primary))'}}>
-            Place a Custom Order
-          </h2>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <FormField
-                control={form.control}
-                name="orderDescription"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Order Description *</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        placeholder="e.g., Bulk order: 2 shulkers of iron blocks, 15 Mending books, etc."
-                        className="bg-input border-border/70"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="minecraftUsername"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Minecraft Username *</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="YourUsername"
-                        className="bg-input border-border/70"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="discordId"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Discord ID *</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="your_discord_username"
-                        className="bg-input border-border/70"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="offer"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Your Offer (in $)</FormLabel>
-                    <FormControl>
-                       <div className="relative">
-                          <span className="absolute inset-y-0 left-3 flex items-center text-muted-foreground">$</span>
-                          <Input
-                            type="number"
-                            placeholder="0"
-                            className="bg-input border-border/70 pl-7"
+          {isSubmitted ? (
+            <div className="text-center flex flex-col items-center justify-center py-8">
+              <CheckCircle className="w-16 h-16 text-green-500 mb-4" />
+              <h2 className="text-2xl font-headline text-primary" style={{textShadow: '0 0 8px hsl(var(--primary))'}}>
+                Order Placed!
+              </h2>
+              <p className="text-muted-foreground mt-2">
+                Your order has been received. We'll contact you on Discord shortly.
+              </p>
+            </div>
+          ) : (
+            <>
+              <h2 className="text-3xl font-headline text-center mb-6 text-primary" style={{textShadow: '0 0 10px hsl(var(--primary))'}}>
+                Place a Custom Order
+              </h2>
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                  <FormField
+                    control={form.control}
+                    name="orderDescription"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Order Description *</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            placeholder="e.g., Bulk order: 2 shulkers of iron blocks, 15 Mending books, etc."
+                            className="bg-input border-border/70"
                             {...field}
-                            onChange={event => field.onChange(+event.target.value)}
                           />
-                        </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button type="submit" className="w-full font-headline text-lg py-6 rounded-md" disabled={isSubmitting}>
-                {isSubmitting ? 'Submitting...' : 'Submit Order'}
-              </Button>
-            </form>
-          </Form>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="minecraftUsername"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Minecraft Username *</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="YourUsername"
+                            className="bg-input border-border/70"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="discordId"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Discord ID *</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="your_discord_username"
+                            className="bg-input border-border/70"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="offer"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Your Offer (in $)</FormLabel>
+                        <FormControl>
+                          <div className="relative">
+                              <span className="absolute inset-y-0 left-3 flex items-center text-muted-foreground">$</span>
+                              <Input
+                                type="number"
+                                placeholder="0"
+                                className="bg-input border-border/70 pl-7"
+                                {...field}
+                                onChange={event => field.onChange(+event.target.value)}
+                              />
+                            </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <Button type="submit" className="w-full font-headline text-lg py-6 rounded-md" disabled={isSubmitting}>
+                    {isSubmitting ? 'Submitting...' : 'Submit Order'}
+                  </Button>
+                </form>
+              </Form>
+            </>
+          )}
         </div>
       </main>
       
@@ -210,5 +223,4 @@ export default function Home() {
       </footer>
     </div>
   );
-
-    
+}
