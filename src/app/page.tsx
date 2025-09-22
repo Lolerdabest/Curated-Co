@@ -187,7 +187,7 @@ export default function Home() {
                 )}
               />
               <Button type="submit" className="w-full font-headline text-lg py-6 rounded-md" disabled={isSubmitting}>
-                {isSubmitting ? 'Placing Order...' : 'Place Order'}
+                {isSubmitting ? 'Submitting...' : 'Submit Order'}
               </Button>
             </form>
           </Form>
@@ -210,4 +210,5 @@ export default function Home() {
       </footer>
     </div>
   );
-}
+
+    
