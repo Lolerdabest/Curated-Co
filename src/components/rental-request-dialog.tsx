@@ -57,7 +57,7 @@ export function RentalRequestDialog({ item, children }: RentalRequestDialogProps
       toast({
         variant: "destructive",
         title: "Request Failed",
-        description: result.message,
+        description: result.message || "An unknown error has occurred.",
       });
     }
   };
@@ -84,7 +84,7 @@ export function RentalRequestDialog({ item, children }: RentalRequestDialogProps
             <FormField control={form.control} name="discordId" render={({ field }) => (
               <FormItem>
                 <FormLabel>Discord ID</FormLabel>
-                <FormControl><Input placeholder="username#1234" {...field} /></FormControl>
+                <FormControl><Input placeholder="your_discord_username" {...field} /></FormControl>
                 <FormMessage />
               </FormItem>
             )} />

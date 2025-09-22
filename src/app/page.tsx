@@ -61,8 +61,8 @@ export default function Home() {
 
     if (result.success) {
       toast({
-        title: "Order Placed!",
-        description: "Your custom order has been submitted.",
+        title: "Order Successful!",
+        description: "Your order has been submitted. You will be contacted soon.",
       });
       form.reset();
     } else {
@@ -153,7 +153,7 @@ export default function Home() {
                     <FormLabel>Discord ID *</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="username#1234"
+                        placeholder="your_discord_username"
                         className="bg-input border-border/70"
                         {...field}
                       />
