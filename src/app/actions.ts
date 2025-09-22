@@ -20,9 +20,9 @@ export async function submitCustomOrder(data: unknown) {
     return { success: false, message: firstError, errors: errorMessages };
   }
 
-  const webhookUrl = "https://discord.com/api/webhooks/1419499799903731815/9tzAGU6MGm4koVDguh3Kqn9KX5fXSgtadM7stsTc3TjjBuaplvfvS96h44eEAosl4C5g";
+  const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
   if (!webhookUrl) {
-    console.error('WEBHOOK_URL is not defined.');
+    console.error('DISCORD_WEBHOOK_URL is not defined.');
     return { success: false, message: 'Server configuration error: Webhook URL is not set.' };
   }
 
@@ -72,9 +72,9 @@ export async function submitRentalRequest(item: RentalItem, data: unknown) {
     return { success: false, message: 'Invalid form data.', errors: parsed.error.flatten().fieldErrors };
   }
 
-  const webhookUrl = "https://discord.com/api/webhooks/1419499799903731815/9tzAGU6MGm4koVDguh3Kqn9KX5fXSgtadM7stsTc3TjjBuaplvfvS96h44eEAosl4C5g";
+  const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
    if (!webhookUrl) {
-    console.error('WEBHOOK_URL is not defined.');
+    console.error('DISCORD_WEBHOOK_URL is not defined.');
     return { success: false, message: 'Server configuration error: Webhook URL is not set.' };
   }
 
