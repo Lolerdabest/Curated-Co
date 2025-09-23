@@ -64,6 +64,7 @@ const rentalSchema = z.object({
   minecraftUsername: z.string().min(1, 'Minecraft username is required.'),
   discordId: z.string().min(1, 'Discord ID is required.'),
   rentalDate: z.date({ required_error: 'Please select a date.' }),
+  terms: z.literal(true),
 });
 
 export async function submitRentalRequest(item: RentalItem, data: unknown) {
@@ -89,6 +90,7 @@ export async function submitRentalRequest(item: RentalItem, data: unknown) {
         { name: "Minecraft Username", value: parsed.data.minecraftUsername, inline: true },
         { name: "Discord ID", value: parsed.data.discordId, inline: true },
         { name: "Requested Rental Date", value: format(parsed.data.rentalDate, "PPP"), inline: false },
+        { name: "Agreement", value: "Terms and Conditions Agreed", inline: false },
       ],
       timestamp: new Date().toISOString()
     }]
@@ -111,5 +113,3 @@ export async function submitRentalRequest(item: RentalItem, data: unknown) {
     return { success: false, message: 'Failed to submit request. Please try again.' };
   }
 }
-
-    

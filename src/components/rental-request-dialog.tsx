@@ -25,11 +25,16 @@ import { z } from 'zod';
 import { submitRentalRequest } from '@/app/actions';
 import { useToast } from '@/hooks/use-toast';
 import { useState, type ReactNode } from 'react';
+import { Checkbox } from './ui/checkbox';
+import Link from 'next/link';
 
 const rentalSchema = z.object({
     minecraftUsername: z.string().min(1, "Minecraft username is required."),
     discordId: z.string().min(1, "Discord ID is required."),
     rentalDate: z.date({ required_error: "Please select a date." }),
+    terms: z.literal(true, {
+      errorMap: () => ({ message: "You must agree to the rental agreement." }),
+    }),
 });
 
 interface RentalRequestDialogProps {
@@ -140,8 +145,30 @@ export function RentalRequestDialog({ item, children }: RentalRequestDialogProps
                         <FormMessage />
                       </FormItem>
                     )} />
+                     <FormField
+                      control={form.control}
+                      name="terms"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <div className="space-y-1 leading-none">
+                            <FormLabel>
+                              Agree to our Rental Agreement
+                            </FormLabel>
+                             <p className="text-sm text-muted-foreground">
+                                By checking this box, you agree to our 
+                                <Link href="/terms" target="_blank" className="underline hover:text-primary"> rental agreement and terms of service</Link>.
+                              </p>
+                          </div>
+                        </FormItem>
+                      )}
+                    />
                     <DialogFooter className="flex-col gap-2 !justify-normal pt-4">
-                      <p className="text-xs text-muted-foreground text-center">You will be contacted via Discord with further details. All rentals require signing a contract.</p>
                       <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
                         {form.formState.isSubmitting ? 'Submitting...' : 'Request Rent'}
                       </Button>
